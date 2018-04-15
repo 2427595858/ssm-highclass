@@ -1,6 +1,6 @@
 # ssm-highclass
 ## 项目介绍
-通过对商品信息进行操作来系统地学习ssm高级注解开发内容。主要有包装类型pojo参数绑定（即类中不是简单类型的属性，而是另外的pojo），list参数绑定，数据回显，上传图片，json交互，RESTful架构，拦截器等。此次开发是基于之前的项目ssm-getting-started进一步提升的，如有需要，请到[ssm-getting-started](https://github.com/2427595858/ssm-getting-started)下载
+通过对商品信息进行操作来系统地学习ssm高级注解开发内容。主要知识有包装类型pojo参数绑定（即类中不是简单类型的属性，而是另外的pojo），list参数绑定，数据回显，上传图片，json交互，RESTful架构，拦截器等。此次开发是基于之前的项目ssm-getting-started进一步提升的，如有需要，请到[ssm-getting-started](https://github.com/2427595858/ssm-getting-started)下载
 
 ## 开发工具
 - ssm框架（spring4.x，springmvc和mybatis）
