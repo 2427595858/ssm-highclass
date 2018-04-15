@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx.xsd ">
+
+    <!-- 使用spring组件扫描，一次性配置此包下所有controller -->
+    <context:component-scan base-package="controller"/>
+
+    <!-- 当我们配置了RESTful方式访问时，静态资源（js，css，img...）也会经过springmvc进行解析
+         要避免这种情况，就要对静态资源的解析进行配置 -->
+    <!-- 比如说web/plugin/jquery是放jquery插件的地方，里面包含jqery.js文件
+         配置后凡是“/plugin/jquery/”下的请求，都会在过程目录下的“/plugin/jquery/”下找相应文件 -->
+    <mvc:resources mapping="/plugin/jquery/**" location="/plugin/jquery/"/>
+    <mvc:resources mapping="/plugin/layui/**" location="/plugin/layui/"/>
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
+
+    <!-- 配置注解驱动，代替注解的映射器和适配器 -->
+    <!-- 这里的conversion-service表示转换器，在下边使用bean配置转换器 -->
+    <!-- 这里使用注解驱动来进行配置，在注解驱动中加入fastjson的配置 -->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters register-defaults="true">
+            <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+            <bean id="fastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 自定义参数绑定 -->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <!-- 日期类型转换器 -->
+                <bean class="controller.converter.DateConverter"/>
+                <!-- 去除字符串两边空格的转换器 -->
+                <bean class="controller.converter.TrimStringConverter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 配置视图解析器 -->
+    <!-- 要求将jstl加到classpath中
+        prefix:代表请求url的前缀
+        suffix:代表请求的url后缀
+        设置了这两个属性值之后，在controller中进行代码开发时返回的
+        modelandview对象设置的页面路径就不需要带前缀名和后缀名了 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- 配置全局异常处理器
+         由于实现了HandlerExceptionResolver,系统知道是全局异常处理器
+          不需要设置id -->
+    <bean class="exception.CustomExceptionResolver"/>
+
+    <!-- 配置图片上传解析器 -->
+    <!-- springmvc的multipartResolver图片解析器依赖于commons-fileupload.jar包 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize">
+            <!-- 最大上传文件容量（字节为单位） -->
+            <!-- 这里设置了最大为10Mb -->
+            <value>10485760</value>
+        </property>
+    </bean>
+
+    <!-- 配置全局拦截器 -->
+    <!--<mvc:interceptors>-->
+        <!--&lt;!&ndash; 拦截器的执行顺序会按照配置的顺序执行 &ndash;&gt;-->
+        <!--&lt;!&ndash; 配置拦截器1 &ndash;&gt;-->
+        <!--<mvc:interceptor>-->
+            <!--&lt;!&ndash; 这里的“/**”表示所有url请求都进行拦截 &ndash;&gt;-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<bean class="controller.interceptor.HandlerInterceptorTest1"/>-->
+        <!--</mvc:interceptor>-->
+        <!--&lt;!&ndash; 配置拦截器2 &ndash;&gt;-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<bean class="controller.interceptor.HandlerInterceptorTest2"/>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
+</beans>

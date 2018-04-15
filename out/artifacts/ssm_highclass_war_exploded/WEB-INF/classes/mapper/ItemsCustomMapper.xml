@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.ItemsCustomMapper">
+    <!-- 定义商品查询的sql片段，
+        建议以单表为单位定义查询条件
+        建议将常用的查询条件都写出来
+        -->
+    <sql id="query_items_where">
+        <!-- 使用动态sql语句，通过if判断是否满足条件，满足则进行拼接 -->
+        <if test="itemCustom!=null">
+            <if test="itemCustom.name!=null and itemCustom.name!=''">
+                name like '%${itemCustom.name}%'
+            </if>
+            <if test="itemCustom.id!=null">
+                and id = #{itemCustom.id}
+            </if>
+        </if>
+    </sql>
+
+    <!-- 商品查询
+        parameterType：输入查询条件（po包下的ItemsQueryVo包装类）
+        resultType建议使用拓展对象（即Items的拓展类ItemCustom）
+        便于之后再添加select子查询时使用 -->
+    <select id="findItemsList" parameterType="po.ItemsQueryVo" resultType="po.ItemCustom">
+        select * from items
+        <where>
+            <include refid="query_items_where"/>
+        </where>
+    </select>
+
+    <!-- 获取总记录数 -->
+    <select id="countItems" parameterType="po.ItemsQueryVo" resultType="java.lang.Long">
+        select count(*) from items
+    </select>
+
+</mapper>

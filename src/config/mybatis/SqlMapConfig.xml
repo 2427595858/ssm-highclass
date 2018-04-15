@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <!-- 单个别名的定义，type：别名映射类型，alias：别名 -->
+        <!-- <typeAlias type="cn.itcast.mybatis.po.User" alias="user"/> -->
+        <!-- 批量定义别名，指定包的路径，自动扫描包下的pojo，定义别名，别名默认为类名，首字母大写或小写 -->
+        <package name="po"/>
+    </typeAliases>
+
+    <!-- 加载mapper映射，和spring整合之后，可以使用整合包中的mapper扫描器，此处的mappers就可以不用配置了 -->
+    <!-- 但是，必须是mapper的xml配置文件和mapper的java文件在同一个包中，并且要同名 -->
+    <!--<mappers>
+        <mapper resource="mapper/Users.xml"/>
+        <package name="mapper"/>
+    </mappers>-->
+
+</configuration>

@@ -1,0 +1,45 @@
+/*数据库名称是mybatis，如果要修改为别的数据库名称的话，config目录下的db.properties 配置文件中的数据库名称也要做出相应修改
+
+/*用户表*/
+create table users(
+	id int identity(1,1),	/* 用户id */
+	username varchar(50) not null,  /* 用户姓名 */
+	birthday date default null,	/*生日*/
+	sex varchar(10) default null,	/*性别*/
+	address varchar(200) default null,	/*地址*/
+	primary key(id)	
+	); 
+
+/*商品表*/
+create table items(
+	id int identity(1,1),	/*商品id */
+	name varchar(50) not null,	/*商品名称*/
+	price numeric(10,1) not null, /*商品价格，整数最多十位，小数最多一位*/
+	detail varchar(max),	/*商品描述*/
+	pic varchar(50) default null,	/*商品图片，一般是保存图片路径到数据库中*/
+	createtime datetime not null,	/*生产日期*/
+	primary key(id)
+	);
+
+/*订单信息表*/
+create table orders(
+	id int identity(1,1),	/*订单id*/
+	users_id int not null,			/*下单用户id*/
+	number varchar(50) not null,	/*订单号*/
+	createtime datetime not null,	/*订单创建时间*/
+	note varchar(200) default null,	/*订单备注*/
+	primary  key(id),
+	foreign key (users_id) references users(id)
+	);  
+
+/*订单详情表*/
+create table orderdetail(
+	id int identity(1,1),
+	orders_id int not null,	/*订单id*/
+	items_id int not null,	/*商品id*/
+	items_num int default null, /*商品购买数量*/
+	primary key(id),
+	foreign key(orders_id) references orders(id),
+	foreign key(items_id) references items(id)
+	);
+

@@ -1,0 +1,7 @@
+insert into users(username,birthday,sex,address) values('张益达','1972-05-06','男','爱情公寓'),('曾老师','1980-08-08','男','爱情公寓');
+
+insert into items(name,price,detail,pic,createtime) values('王八牌皮鞋',500.0,'江南皮革厂倒闭啦！！',null,'2016-03-04 22:22:22'),('南非钻石',998.0,'全部只要998，买不了吃亏，买不了上当',null,'2015-09-12 13:14:52');
+
+insert into orders(users_id,number,createtime,note) values(1,'100','2018-04-03 11:02:01','恭喜你成为第一百位购买的幸运客户，获得5块钱'),(2,'101','2018-04-03 21:03:01',null);
+
+insert into orderdetail(orders_id,items_id,items_num) values(1,1,2),(1,2,1),(2,1,3);

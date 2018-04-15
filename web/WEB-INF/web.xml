@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+
+<!-- 前端控制器配置 -->
+<!--
+    DispatcherServlet主要用作职责调度工作，本身主要用于控制流程，主要职责如下：
+    1、文件上传解析，如果请求类型是multipart将通过MultipartResolver进行文件上传解析；
+    2、通过HandlerMapping，将请求映射到处理器（返回一个HandlerExecutionChain，它包括一个处理器、多个HandlerInterceptor拦截器）；
+    3、通过HandlerAdapter支持多种类型的处理器(HandlerExecutionChain中的处理器)；
+    4、通过ViewResolver解析逻辑视图名到具体视图实现；
+    5、本地化解析；
+    6、渲染具体的视图等；
+    7、如果执行过程中遇到异常将交给HandlerExceptionResolver来解析。
+    -->
+
+    <servlet>
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- 加载springmvc配置文件 -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <!-- 配置文件的地址，如果不配置contextConfigLocation，
+                 默认查找的配置文件名称是classpath下的:servlet名称+"-servlet.xml"即springmvc-servlet.xml-->
+            <param-value>classpath:config/spring/springmvc.xml</param-value>
+        </init-param>
+    </servlet>
+
+    <!-- 映射 -->
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <!-- 可以配置/  表示此工程所有请求全部由springmvc解析，此方式可以实现RESTful（表征性状态转移，总结起来应该是是一种简洁的架构风格）方式，
+                        静态文件不能由springmvc解析，需要特殊处理
+            可以配置*.do或者*.action，所有请求的url扩展名为.do或.action由springmvc解析，此方法常用
+            不可以配置/* ，如果配置/* ，则返回的jsp也有springmvc解析，这是不对的 -->
+
+        <url-pattern>*.action</url-pattern>
+    </servlet-mapping>
+
+    <!-- 配置spring容器监听器 -->
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <!-- 建议使用通配符方式配置，而不是使用include一个一个文件加 -->
+        <param-value>/WEB-INF/classes/config/spring/applicationContext-*.xml</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <!-- RESTful前端控制器配置，可以和之前设置的.action前端控制器并存 -->
+    <servlet>
+        <servlet-name>springmvcRESTful</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!-- 加载springmvc配置文件 -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <!-- 配置文件的地址，如果不配置contextConfigLocation，
+                 默认查找的配置文件名称是classpath下的:servlet名称+"-servlet.xml"即springmvc-servlet.xml-->
+            <param-value>classpath:config/spring/springmvc.xml</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springmvcRESTful</servlet-name>
+        <!-- 可以配置/  表示此工程所有请求全部由springmvc解析，此方式可以实现RESTful（表征性状态转移，总结起来应该是是一种简洁的架构风格）方式，
+                        静态文件不能由springmvc解析，需要特殊处理  -->
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    
+    <!-- 表单通过post方式提交，可能会出现乱码问题，需要设置过滤器解决 -->
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <!-- 设置过滤器中的属性，将编码格式统一为utf-8 -->
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>utf-8</param-value>
+        </init-param>
+    </filter>
+    <!-- 这里的/* 表示过滤所有请求 -->
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+</web-app>
