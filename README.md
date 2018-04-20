@@ -21,5 +21,3 @@
 
 ![整体页面](https://github.com/2427595858/ssm-highclass/blob/master/img/%E6%98%BE%E7%A4%BA%E7%94%A8%E6%88%B7%E5%90%8D.png)
 
-
-详细的操作步骤可以前往[我的博客](https://2427595858.github.io/2018/04/10/ssm%E9%AB%98%E7%BA%A7%E6%B3%A8%E8%A7%A3%E5%BC%80%E5%8F%91/)查看
