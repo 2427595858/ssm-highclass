@@ -21,3 +21,6 @@
 
 ![整体页面](https://github.com/2427595858/ssm-highclass/blob/master/img/%E6%98%BE%E7%A4%BA%E7%94%A8%E6%88%B7%E5%90%8D.png)
 
+详细教程请到[我的博客](https://blog.csdn.net/silversoldier/article/details/80337384)观看。
+
+如果觉得不错的话，请给个star吧。
